@@ -1,25 +1,18 @@
-import { useRef, useEffect } from "react"
-import { SimpleFunctionType } from "../../util/types"
+import { ReactNode} from "react"
+import { ClickType } from "../../util/types"
+import { CoordsProp } from "../../util/interfaces"
 
-export default function OptionBox({stopDisplay} : {stopDisplay: SimpleFunctionType}) {
-    const optionRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        const handleClickingOuside = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-             if (!optionRef.current!.contains(target) && !target.classList.contains("optionBox")) {
-                stopDisplay();
-             };
-        }
-
-        document.addEventListener("mousedown", handleClickingOuside);
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickingOuside);
-        }
-    }, []);
+export default function OptionBox({coordsProp} : {coordsProp: CoordsProp, children? : ReactNode }) {
     
+   const handleSelection = function handleSelectionOfOption(e: ClickType) {
+        const target = e.target as HTMLElement;
+        if (target.classList.contains("charOption")) {
+            ///TODO SAVE THE OPTION SELECTED
+        }     
+   }
+
     return (
-        <div className="optionBox" ref={optionRef}></div>
+        <div className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", height: "20px", width: "20px", backgroundColor: "blue", ...coordsProp}}></div>
     )
 
 }
