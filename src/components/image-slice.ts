@@ -25,10 +25,11 @@ export const imageSlice = createSlice({
         selectId: data => data.image.id,
         selectName: data => data.image.name,
         selectUrl: data => data.image.url,
+        selectImage: data => data.image
     }
 });
 
 export const { setImage } = imageSlice.actions;
-export const { selectId, selectName, selectUrl} = imageSlice.selectors;
+export const { selectId, selectName, selectUrl, selectImage } = imageSlice.selectors;
 
 
