@@ -4,4 +4,10 @@ interface CoordsProp {
 
 };
 
-export {CoordsProp};
+interface Image {
+    id: number,
+    name: string,
+    url: string
+};
+
+export {CoordsProp, Image};

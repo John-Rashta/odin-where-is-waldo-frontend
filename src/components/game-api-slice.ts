@@ -1,15 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Image {
-    id: string,
-    name: string,
-    url: string
-};
+import { Image } from "../../util/interfaces";
 
 interface Character {
     id: string,
     name: string,
     imageUrl: string
+    found? : boolean
 };
 
 interface GameStartData {
@@ -48,7 +44,7 @@ export const apiSlice = createApi({
             fetchImages: builder.query<Image[], void> ({
                 query: () => `/image`,
             }),
-            startGame: builder.mutation<GameStartData, number|void> ({
+            startGame: builder.query<GameStartData, number> ({
                 query: (imageid) => ({
                     url: `/game${imageid ? `?imageid=${imageid}` : ""}`,
                     method: "POST",
@@ -62,12 +58,30 @@ export const apiSlice = createApi({
                     }
                 }
             }),
-            updateGame: builder.mutation<ReturnMessage, {body: GameUpdateBody, gameid: string}> ({
+            updateGame: builder.mutation<ReturnMessage, {body: GameUpdateBody, gameid: string, imageid: number}> ({
                 query:  ({body, gameid}) => ({
                     url: `/game/${gameid}`,
                     method: "PUT",
                     body,
-                })
+                }),
+                async onQueryStarted({body, imageid}, lifecycleApi) {
+                    try {
+                    const {data: res} = await lifecycleApi.queryFulfilled;
+                    if (res.message === "Correct Coordinates") {
+                        // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+                        const patchResult = lifecycleApi.dispatch(
+                            apiSlice.util.updateQueryData("startGame", imageid, draft => {
+                                const foundChar = draft.chars.find((char) => char.id === body.char);
+                                if (foundChar) {
+                                    foundChar.found = true;
+                                }
+                            } )
+                        )
+                    }
+                    // eslint-disable-next-line no-empty
+                    } catch {}
+
+                }
             }),
             getScore: builder.query<ScoreData[], void> ({
                 query: () => "/score",
@@ -84,7 +98,7 @@ export const apiSlice = createApi({
 
 export const { 
     useFetchImagesQuery, 
-    useStartGameMutation, 
+    useLazyStartGameQuery,
     useUpdateGameMutation, 
     useAddScoreMutation, 
     useGetScoreQuery 
