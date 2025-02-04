@@ -1,7 +1,8 @@
 interface CoordsProp {
     left: number,
-    top: number
-
+    top: number,
+    adjustedX: number,
+    adjustedY: number
 };
 
 interface Image {
@@ -10,4 +11,11 @@ interface Image {
     url: string
 };
 
-export {CoordsProp, Image};
+interface Character {
+    id: string,
+    name: string,
+    imageUrl: string
+    found? : boolean
+};
+
+export {CoordsProp, Image, Character};

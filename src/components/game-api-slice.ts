@@ -1,12 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Image } from "../../util/interfaces";
-
-interface Character {
-    id: string,
-    name: string,
-    imageUrl: string
-    found? : boolean
-};
+import { Image, Character } from "../../util/interfaces";
 
 interface GameStartData {
     chars: Character[],
@@ -26,7 +19,7 @@ interface ReturnMessage {
 interface ScoreData {
     time: string,
     username: string,
-    map: [{id: string, name: string}],
+    map: {id: string, name: string},
 }
 
 interface ScoreInput {
