@@ -1,5 +1,5 @@
 import { useFetchImagesQuery, useLazyStartGameQuery } from "./game-api-slice";
-import { setImage } from "./image-slice";
+import { setImage, setGameState } from "./image-slice";
 import { ClickType } from "../../util/types";
 
 export default function ImageSelection() {
@@ -14,6 +14,7 @@ export default function ImageSelection() {
                 const selectedName = target.dataset.name;
                 const selectedUrl = target.dataset.url;
                 setImage({id: selectedImage, name: selectedName, url: selectedUrl});
+                setGameState(false);
                 trigger(selectedImage);
                 return;
             }

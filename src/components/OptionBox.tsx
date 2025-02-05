@@ -2,7 +2,7 @@ import { ReactNode} from "react"
 import { ClickType } from "../../util/types"
 import { CoordsProp } from "../../util/interfaces"
 import { useLazyStartGameQuery, useUpdateGameMutation } from "./game-api-slice"
-import { selectId } from "./image-slice"
+import { selectId, selectGameState, setGameState } from "./image-slice"
 import { useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
 
@@ -17,16 +17,24 @@ export default function OptionBox({coordsProp} : {coordsProp: CoordsProp, childr
 
     const [updateGame] = useUpdateGameMutation();
     const currentImageId = useSelector(selectId);
+    const isGameOver = useSelector(selectGameState);
     
    const handleSelection = function handleSelectionOfOption(e: ClickType) {
         const target = e.target as HTMLElement;
+        if (isGameOver) {
+            return;
+        }
         if (target.classList.contains("charOption")) {
             ///TODO SAVE THE OPTION SELECTED
             if (gameInfo && target.dataset.id) {
                 updateGame({gameid: gameInfo, imageid: currentImageId, body: {
                         coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: target.dataset.id
                     } 
-                }).unwrap();
+                }).unwrap().then((result) => {
+                    if (result.message === "Game Finished") {
+                        setGameState(true);
+                    }
+                });
             };
         };
    }
