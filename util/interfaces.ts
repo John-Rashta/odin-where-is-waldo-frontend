@@ -1,8 +1,9 @@
-interface CoordsProp {
+interface mainInfo {
     left: number,
     top: number,
     adjustedX: number,
-    adjustedY: number
+    adjustedY: number,
+    closeBox: () => void
 };
 
 interface Image {
@@ -18,4 +19,4 @@ interface Character {
     found? : boolean
 };
 
-export {CoordsProp, Image, Character};
+export {mainInfo, Image, Character};

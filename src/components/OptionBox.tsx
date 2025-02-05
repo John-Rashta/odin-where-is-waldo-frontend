@@ -1,12 +1,12 @@
 import { ReactNode} from "react"
-import { ClickType } from "../../util/types"
+import { ClickType, SimpleFunctionType } from "../../util/types"
 import { CoordsProp } from "../../util/interfaces"
 import { useLazyStartGameQuery, useUpdateGameMutation } from "./game-api-slice"
 import { selectId, selectGameState, setGameState } from "./image-slice"
 import { useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
 
-export default function OptionBox({coordsProp} : {coordsProp: CoordsProp, children? : ReactNode }) {
+export default function OptionBox({coordsProp, closeBox} : {coordsProp: CoordsProp, closeBox: SimpleFunctionType , children? : ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     const [ trigger, {charsInfo, gameInfo} ] = useLazyStartGameQuery({
         selectFromResult: ({data}) => ({
@@ -24,7 +24,7 @@ export default function OptionBox({coordsProp} : {coordsProp: CoordsProp, childr
         if (isGameOver) {
             return;
         }
-        if (target.classList.contains("charOption")) {
+        if (target.classList.contains("charOption") || target.parentElement && target.parentElement.classList.contains("charOption")) {
             ///TODO SAVE THE OPTION SELECTED
             if (gameInfo && target.dataset.id) {
                 updateGame({gameid: gameInfo, imageid: currentImageId, body: {
@@ -34,7 +34,8 @@ export default function OptionBox({coordsProp} : {coordsProp: CoordsProp, childr
                     if (result.message === "Game Finished") {
                         setGameState(true);
                     }
-                });
+                }).finally(() => closeBox());
+
             };
         };
    }

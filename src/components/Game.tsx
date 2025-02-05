@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { ClickType } from '../../util/types';
 import { selectGameState } from "./image-slice";
 import OptionBox from "./OptionBox";
@@ -10,14 +10,19 @@ export default function Game() {
     const [coords, setCoords] = useState({coordX: 0, coordY: 0, adjustedX: 0, adjustedY:0});
     const isGameOver = useSelector(selectGameState);
 
+    const closeShowBox = useCallback(() => setShowBox(false), []);
+
     function handleOnClick(event: ClickType) {
         /// MIGHT CHANGE IT SO THAT IT CLOSES WHEN IT GETS CLICKED AND SHOWBOX IS TRUE INSTEAD OF HAVING THE WHOLE CODE IN THE OTHER ONE
+        const currentTarget = event.target as HTMLImageElement;
+        if (!currentTarget.classList.contains("mainImage")) {
+            return;
+        }
         if (showBox) {
             setShowBox(false);
         } else {
         const mouseX = event.clientX;
         const mouseY = event.clientY;
-        const currentTarget = event.target as HTMLImageElement;
         const rect = currentTarget.getBoundingClientRect();
         const scaleX = currentTarget.naturalWidth / rect.width;
         const scaleY = currentTarget.naturalHeight / rect.height;
@@ -27,19 +32,21 @@ export default function Game() {
         setShowBox(true);
         }
     }
-
+    /// ADD IMAGE ELEMENT AND PUT THE CLICK EVENT THERE INSTEAD
     return (
-        <div
-        onClick={(e: ClickType) => {
-            handleOnClick(e);
-        }}
-        style={{width: "100vw", height:" 100vh", padding: "20%"}}
-        >
-            { isGameOver && <AddScore/>}
+        <main>
+            <div
+            onClick={(e: ClickType) => {
+                handleOnClick(e);
+            }}
+            style={{width: "100vw", height:" 100vh", padding: "20%"}}
+            >
+                { isGameOver && <AddScore/>}
 
-            <div style={{width: "600px", height: "600px", backgroundColor: "green"}}>
-                {showBox ? <OptionBox coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
+                <div style={{width: "600px", height: "600px", backgroundColor: "green"}}>
+                    {showBox ? <OptionBox closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
+                </div>
             </div>
-        </div>
+        </main>
     )
 }
