@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import './App.css'
-import { useUpdateGameMutation } from './components/game-api-slice'
 function App() {
   const [count, setCount] = useState(0)
   //const [startIt, {data, isLoading}] = useUpdateGameMutation()

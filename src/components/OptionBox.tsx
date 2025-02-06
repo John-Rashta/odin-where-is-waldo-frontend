@@ -1,47 +1,57 @@
 import { ReactNode} from "react"
 import { ClickType, SimpleFunctionType } from "../../util/types"
 import { CoordsProp } from "../../util/interfaces"
-import { useLazyStartGameQuery, useUpdateGameMutation } from "./game-api-slice"
-import { selectId, selectGameState, setGameState } from "./image-slice"
-import { useSelector } from "react-redux"
+import { useStartGameMutation, useUpdateGameMutation, useGetCharactersQuery  } from "./game-api-slice"
+import { selectGameState, setGameState } from "./image-slice"
+import { useDispatch, useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
+import { skipToken } from "@reduxjs/toolkit/query"
 
 export default function OptionBox({coordsProp, closeBox} : {coordsProp: CoordsProp, closeBox: SimpleFunctionType , children? : ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    const [ trigger, {charsInfo, gameInfo} ] = useLazyStartGameQuery({
+    const [trigger, {gameInfo}] = useStartGameMutation({
+        fixedCacheKey: "game-id-mutation",
         selectFromResult: ({data}) => ({
-           charsInfo: data?.chars,
-           gameInfo: data?.game
+            gameInfo: data?.game
+        })
+    });
+    const {charsInfo} = useGetCharactersQuery(gameInfo || skipToken, {
+        selectFromResult: ({data}) => ({
+           charsInfo: data?.chars
         })
     });
 
     const [updateGame] = useUpdateGameMutation();
-    const currentImageId = useSelector(selectId);
     const isGameOver = useSelector(selectGameState);
+    const dispatch = useDispatch();
     
    const handleSelection = function handleSelectionOfOption(e: ClickType) {
         const target = e.target as HTMLElement;
         if (isGameOver) {
+            closeBox();
             return;
         }
         if (target.classList.contains("charOption") || target.parentElement && target.parentElement.classList.contains("charOption")) {
+            const charid = target.dataset.id || target.parentElement && target.parentElement.dataset.id;
             ///TODO SAVE THE OPTION SELECTED
-            if (gameInfo && target.dataset.id) {
-                updateGame({gameid: gameInfo, imageid: currentImageId, body: {
-                        coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: target.dataset.id
+            if (gameInfo && charid) {
+                updateGame({gameid: gameInfo, body: {
+                        coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: charid
                     } 
                 }).unwrap().then((result) => {
                     if (result.message === "Game Finished") {
-                        setGameState(true);
+                        dispatch(setGameState(true));
                     }
-                }).finally(() => closeBox());
+                }).finally(() => {
+                    closeBox();
+                });
 
             };
         };
    }
 
     return (
-        <div className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", height: "20px", width: "20px", backgroundColor: "blue", ...coordsProp}}>
+        <div className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", ...coordsProp}}>
             {charsInfo ? charsInfo.map((char) => {
                 return <CharCustom key={char.id} extraClass="charOption" char={char} />
             })  :  <div>No Characters Found.</div>  }

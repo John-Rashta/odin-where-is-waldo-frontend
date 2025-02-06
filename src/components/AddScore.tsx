@@ -1,17 +1,21 @@
-import { useAddScoreMutation, useLazyStartGameQuery } from "./game-api-slice";
+import { useAddScoreMutation, useStartGameMutation } from "./game-api-slice";
 import { useState } from "react";
 import Modal from "react-modal";
 import { FormType } from "../../util/types";
+import { useNavigate } from "react-router-dom";
+
+Modal.setAppElement('#root');
 
 export default function AddScore() {
-    const [modalState, setModalState] = useState(true);
+    const [modalState, setModalState] = useState(false);
     const [addToScore] = useAddScoreMutation();
      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-     const [ trigger, {gameInfo} ] = useLazyStartGameQuery({
+     const [ trigger, {gameInfo} ] = useStartGameMutation({
         selectFromResult: ({data}) => ({
            gameInfo: data?.game
         })
     });
+    const navigate = useNavigate();
 
     const closeModal = () => setModalState(false);
 
@@ -24,7 +28,11 @@ export default function AddScore() {
         if (!gameInfo) {
             return;
         }
-        addToScore({username: currentTarget.username.value as string, gameid: gameInfo});
+        addToScore({username: currentTarget.username.value as string, gameid: gameInfo}).unwrap().then((result) => {
+            if (result.message === "Added to Scoreboard") {
+                navigate("/scoreboard");
+            };
+        });
         closeModal();
     };
 

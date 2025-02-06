@@ -4,9 +4,9 @@ export default function Scoreboard() {
     const { data, error, isLoading } = useGetScoreQuery();
 
     return (
-        <>
+        <main>
             {isLoading ? <div>Loading...</div> : error ? <div>Error Loading!</div> : 
-            data ? 
+            (data && Array.isArray(data)) ? 
                 <table>
                     <tr>
                         <th>Username</th>
@@ -24,6 +24,6 @@ export default function Scoreboard() {
                     })}
                 </table>
             : <div>No entries in scoreboard yet.</div> }
-        </>
+        </main>
     )
 };

@@ -9,7 +9,7 @@ interface nestState {
 const initialState: nestState = {
     gameOver: true,
     image: {
-        id: 1,
+        id: 0,
         name: "0",
         url: "0"
     }

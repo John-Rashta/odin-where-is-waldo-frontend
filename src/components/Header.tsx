@@ -6,8 +6,8 @@ export default function Header() {
         <header>
             <nav>
                 <h1>Find Waldo</h1>
-                <NavLink to="">New Game</NavLink>
-                <NavLink to="">Scoreboard</NavLink>
+                <NavLink to="/">New Game</NavLink>
+                <NavLink to="/scoreboard">Scoreboard</NavLink>
             </nav>
         </header>
     )
