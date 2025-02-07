@@ -1,10 +1,13 @@
 import { useState, useCallback } from "react";
 import { ClickType } from '../../util/types';
-import { selectGameState, selectUrl, selectName } from "./image-slice";
+import { selectUrl, selectName } from "./image-slice";
 import OptionBox from "./OptionBox";
 import { useSelector } from "react-redux";
 import AddScore from "./AddScore";
 import CharTracker from "./CharTracker";
+import { useStartGameMutation } from "./game-api-slice";
+import { useNavigate } from "react-router-dom";
+import { selectGameState } from "./manager-slice";
 
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
@@ -12,7 +15,14 @@ export default function Game() {
     const isGameOver = useSelector(selectGameState);
     const imageURL = useSelector(selectUrl);
     const imageName = useSelector(selectName);
-
+    const navigate = useNavigate();
+     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+     const [trigger, {gameInfo}] = useStartGameMutation({
+        fixedCacheKey: "game-id-mutation",
+        selectFromResult: ({data}) => ({
+            gameInfo: data?.game,
+        })
+    });
     const closeShowBox = useCallback(() => setShowBox(false), []);
 
     function handleOnClick(event: ClickType) {
@@ -36,6 +46,10 @@ export default function Game() {
         }
     }
     /// ADD IMAGE ELEMENT AND PUT THE CLICK EVENT THERE INSTEAD
+    if (!gameInfo) {
+        navigate("/");
+    };
+
     return (
         <main>
             <CharTracker />

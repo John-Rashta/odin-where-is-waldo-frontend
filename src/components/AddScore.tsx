@@ -1,13 +1,16 @@
 import { useAddScoreMutation, useStartGameMutation } from "./game-api-slice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { FormType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
+import { selectOpenScoreState } from "./manager-slice";
+import { useSelector } from "react-redux";
 
 Modal.setAppElement('#root');
 
 export default function AddScore() {
     const [modalState, setModalState] = useState(false);
+    const currentOpenState = useSelector(selectOpenScoreState);
     const [addToScore] = useAddScoreMutation();
      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
      const [ trigger, {gameInfo} ] = useStartGameMutation({
@@ -16,6 +19,11 @@ export default function AddScore() {
         })
     });
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setModalState(currentOpenState);
+
+    },[currentOpenState]);
 
     const closeModal = () => setModalState(false);
 

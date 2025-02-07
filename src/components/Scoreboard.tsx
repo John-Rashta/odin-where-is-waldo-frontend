@@ -1,7 +1,14 @@
- import { useGetScoreQuery } from "./game-api-slice";
+ import { useGetScoreQuery, useStartGameMutation } from "./game-api-slice";
 
 export default function Scoreboard() {
     const { data, error, isLoading } = useGetScoreQuery();
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    const [trigger, {gameInfo}] = useStartGameMutation({
+        fixedCacheKey: "game-id-mutation",
+        selectFromResult: ({data}) => ({
+            gameInfo: data?.game,
+        })
+    });
 
     return (
         <main>

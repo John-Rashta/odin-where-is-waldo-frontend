@@ -2,7 +2,7 @@ import { ReactNode} from "react"
 import { ClickType, SimpleFunctionType } from "../../util/types"
 import { CoordsProp } from "../../util/interfaces"
 import { useStartGameMutation, useUpdateGameMutation, useGetCharactersQuery  } from "./game-api-slice"
-import { selectGameState, setGameState } from "./image-slice"
+import { selectGameState, setGameState, setAddScore } from "./manager-slice"
 import { useDispatch, useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
 import { skipToken } from "@reduxjs/toolkit/query"
@@ -41,6 +41,7 @@ export default function OptionBox({coordsProp, closeBox} : {coordsProp: CoordsPr
                 }).unwrap().then((result) => {
                     if (result.message === "Game Finished") {
                         dispatch(setGameState(true));
+                        dispatch(setAddScore(true));
                     }
                 }).finally(() => {
                     closeBox();

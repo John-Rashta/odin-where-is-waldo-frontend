@@ -1,5 +1,6 @@
 import { useFetchImagesQuery, useStartGameMutation } from "./game-api-slice";
-import { setImage, setGameState } from "./image-slice";
+import { setImage } from "./image-slice";
+import { setGameState } from "./manager-slice";
 import { ClickType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -21,8 +22,13 @@ export default function ImageSelection() {
                 const selectedUrl = target.dataset.url;
                 dispatch(setImage({id: selectedImage, name: selectedName, url: selectedUrl}));
                 dispatch(setGameState(false));
-                trigger(selectedImage);
-                navigate("/game");
+                trigger(selectedImage).unwrap().then((result) => {
+                    if (!result.game) {
+                        return;
+                    } else {
+                        navigate("/game");
+                    }
+                });
                 return;
             };
             return;

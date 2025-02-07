@@ -3,7 +3,9 @@ import { Image, Character } from "../../util/interfaces";
 
 interface GameCharData {
     chars: Character[],
-}
+    foundChars: string[],
+};
+
 interface GameStartData {
     game: string
 };
@@ -34,6 +36,7 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "http://localhost:3000"
     }),
+    tagTypes: ["Score", "Chars"],
     endpoints: builder => ({
         
             fetchImages: builder.query<Image[], void> ({
@@ -44,17 +47,22 @@ export const apiSlice = createApi({
                     url: `/game${imageid ? `?imageid=${imageid}` : ""}`,
                     method: "POST",
                 }),
+                invalidatesTags:["Chars"],
             }),
             getCharacters: builder.query<GameCharData, string> ({
                 query: (gameid) => ({
                     url: `/game/${gameid}/characters`,
                 }),
-                keepUnusedDataFor: 500,
+                providesTags: ["Chars"],
                 transformResponse(responseData: GameCharData) {
                     const response = {
                         chars: responseData.chars.map((char) => {
-                            return {...char, found: false}
+                            return {
+                                    ...char, 
+                                    found: responseData.foundChars.includes(char.id)
+                                }
                         }),
+                        foundChars: responseData.foundChars
                     };
                     return response
                 }
@@ -88,13 +96,15 @@ export const apiSlice = createApi({
             }),
             getScore: builder.query<ScoreData[], void> ({
                 query: () => "/scoreboard",
+                providesTags: ["Score"]
             }),
             addScore: builder.mutation<ReturnMessage, ScoreInput> ({
                 query: ({username, gameid}) => ({
                     url: `/scoreboard/${gameid}`,
                     method: "POST",
                     body: {username}
-                })
+                }),
+                invalidatesTags: ["Score"]
             })
     })
 });
