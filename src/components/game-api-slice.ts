@@ -26,6 +26,10 @@ interface ScoreData {
     map: {id: string, name: string},
 }
 
+interface ScoresReturn {
+    scores: ScoreData[],
+}
+
 interface ScoreInput {
     username: string,
     gameid: string,
@@ -36,7 +40,7 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "http://localhost:3000"
     }),
-    tagTypes: ["Score", "Chars"],
+    tagTypes: ["Score", "Chars", "GameScore"],
     endpoints: builder => ({
         
             fetchImages: builder.query<Image[], void> ({
@@ -47,7 +51,7 @@ export const apiSlice = createApi({
                     url: `/game${imageid ? `?imageid=${imageid}` : ""}`,
                     method: "POST",
                 }),
-                invalidatesTags:["Chars"],
+                invalidatesTags:["Chars", "GameScore"],
             }),
             getCharacters: builder.query<GameCharData, string> ({
                 query: (gameid) => ({
@@ -94,7 +98,7 @@ export const apiSlice = createApi({
 
                 }
             }),
-            getScore: builder.query<ScoreData[], void> ({
+            getScore: builder.query<ScoresReturn, void> ({
                 query: () => "/scoreboard",
                 providesTags: ["Score"]
             }),
@@ -105,6 +109,12 @@ export const apiSlice = createApi({
                     body: {username}
                 }),
                 invalidatesTags: ["Score"]
+            }),
+            getScoreOfGame: builder.query<{score : ScoreData} , string> ({
+                query: (gameid) => ({
+                    url: `/scoreboard/${gameid}`,
+                }),
+                providesTags: ["GameScore"]
             })
     })
 });
@@ -116,5 +126,6 @@ export const {
     useAddScoreMutation, 
     useGetScoreQuery,
     useGetCharactersQuery,
+    useGetScoreOfGameQuery,
     
 } = apiSlice;

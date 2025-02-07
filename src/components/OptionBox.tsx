@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
 import { skipToken } from "@reduxjs/toolkit/query"
 
-export default function OptionBox({coordsProp, closeBox} : {coordsProp: CoordsProp, closeBox: SimpleFunctionType , children? : ReactNode }) {
+export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsProp: CoordsProp, closeBox: SimpleFunctionType, showWrong: SimpleFunctionType , children? : ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     const [trigger, {gameInfo}] = useStartGameMutation({
         fixedCacheKey: "game-id-mutation",
@@ -39,6 +39,9 @@ export default function OptionBox({coordsProp, closeBox} : {coordsProp: CoordsPr
                         coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: charid
                     } 
                 }).unwrap().then((result) => {
+                    if (result.message === "Incorrect Coordinates") {
+                        showWrong();
+                    }
                     if (result.message === "Game Finished") {
                         dispatch(setGameState(true));
                         dispatch(setAddScore(true));

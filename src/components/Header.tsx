@@ -7,6 +7,7 @@ export default function Header() {
             <nav>
                 <h1>Find Waldo</h1>
                 <NavLink to="/">New Game</NavLink>
+                <NavLink to="/game">Game</NavLink>
                 <NavLink to="/scoreboard">Scoreboard</NavLink>
             </nav>
         </header>

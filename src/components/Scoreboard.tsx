@@ -1,4 +1,5 @@
- import { useGetScoreQuery, useStartGameMutation } from "./game-api-slice";
+ import { skipToken } from "@reduxjs/toolkit/query";
+import { useGetScoreQuery, useStartGameMutation, useGetScoreOfGameQuery } from "./game-api-slice";
 
 export default function Scoreboard() {
     const { data, error, isLoading } = useGetScoreQuery();
@@ -10,25 +11,42 @@ export default function Scoreboard() {
         })
     });
 
+    const {gameScore} = useGetScoreOfGameQuery(gameInfo || skipToken,  {
+        selectFromResult: ({data}) => ({
+            gameScore: data?.score
+        })
+    });
+
     return (
         <main>
             {isLoading ? <div>Loading...</div> : error ? <div>Error Loading!</div> : 
-            (data && Array.isArray(data)) ? 
+            (data && Array.isArray(data.scores)) ? 
                 <table>
-                    <tr>
-                        <th>Username</th>
-                        <th>Image</th>
-                        <th>time</th>
-                    </tr>
-                    {data.map((entry) => {
-                        return (
-                            <tr key={entry.username + entry.time + entry.map.id}>
-                                <td>{entry.username}</td>
-                                <td>{entry.time}</td>
-                                <td>{entry.map.name}</td>
-                            </tr>
-                            )
-                    })}
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Image</th>
+                            <th>time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.scores.map((entry) => {
+                            return (
+                                <tr key={entry.username + entry.time + entry.map.id}>
+                                    <td>{entry.username}</td>
+                                    <td>{entry.time}</td>
+                                    <td>{entry.map.name}</td>
+                                </tr>
+                                )
+                        })}
+                        {gameScore && 
+                            <tr>
+                                <td>{gameScore.username} </td>
+                                <td>{gameScore.time} </td>
+                                <td>{gameScore.map.name} </td>
+                            </tr> 
+                        }
+                    </tbody>   
                 </table>
             : <div>No entries in scoreboard yet.</div> }
         </main>

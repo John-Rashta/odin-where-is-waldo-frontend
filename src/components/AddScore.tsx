@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { FormType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
-import { selectOpenScoreState } from "./manager-slice";
-import { useSelector } from "react-redux";
+import { selectOpenScoreState, setAddScore } from "./manager-slice";
+import { useSelector, useDispatch } from "react-redux";
 
 Modal.setAppElement('#root');
 
@@ -12,8 +12,10 @@ export default function AddScore() {
     const [modalState, setModalState] = useState(false);
     const currentOpenState = useSelector(selectOpenScoreState);
     const [addToScore] = useAddScoreMutation();
+    const dispatch = useDispatch();
      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
      const [ trigger, {gameInfo} ] = useStartGameMutation({
+        fixedCacheKey: "game-id-mutation",
         selectFromResult: ({data}) => ({
            gameInfo: data?.game
         })
@@ -41,7 +43,7 @@ export default function AddScore() {
                 navigate("/scoreboard");
             };
         });
-        closeModal();
+        dispatch(setAddScore(false));
     };
 
     return (

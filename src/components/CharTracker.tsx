@@ -11,7 +11,7 @@ export default function CharTracker() {
         })
     });
     
-    const {charsInfo}  = useGetCharactersQuery(gameInfo || skipToken, {
+    const {charsInfo, refetch}  = useGetCharactersQuery(gameInfo || skipToken, {
             
             selectFromResult: ({data}) => ({
                charsInfo: data?.chars,
@@ -22,7 +22,9 @@ export default function CharTracker() {
         <div>
             {charsInfo ? charsInfo.map((char) => {
                 return <CharCustom key={char.id} extraClass="CharTrackDiv" char={char} /> 
-            }) : <div>No Characters Found.</div> }
+            }) :  <button
+            onClick={() => refetch()}
+            >Try Again</button> }
         </div>
     )
 }

@@ -12,6 +12,7 @@ import { selectGameState } from "./manager-slice";
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
     const [coords, setCoords] = useState({coordX: 0, coordY: 0, adjustedX: 0, adjustedY:0});
+    const [wrongAnswer, setWrongAnswer] = useState(false);
     const isGameOver = useSelector(selectGameState);
     const imageURL = useSelector(selectUrl);
     const imageName = useSelector(selectName);
@@ -24,6 +25,11 @@ export default function Game() {
         })
     });
     const closeShowBox = useCallback(() => setShowBox(false), []);
+
+    const showWrongAnswer = useCallback(() => {
+        setWrongAnswer(true);
+        setTimeout(() => setWrongAnswer(false), 15000);
+    },[]);
 
     function handleOnClick(event: ClickType) {
         /// MIGHT CHANGE IT SO THAT IT CLOSES WHEN IT GETS CLICKED AND SHOWBOX IS TRUE INSTEAD OF HAVING THE WHOLE CODE IN THE OTHER ONE
@@ -41,7 +47,7 @@ export default function Game() {
         const scaleY = currentTarget.naturalHeight / rect.height;
         const finalX = Math.floor(scaleX * (mouseX - rect.left));
         const finalY = Math.floor(scaleY * (mouseY - rect.top));
-        setCoords({coordX: mouseX, coordY: mouseY, adjustedX: finalX, adjustedY: finalY});
+        setCoords({coordX: event.pageX, coordY: event.pageY, adjustedX: finalX, adjustedY: finalY});
         setShowBox(true);
         }
     }
@@ -53,6 +59,7 @@ export default function Game() {
     return (
         <main>
             <CharTracker />
+            <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
             <div>
                 {(imageURL && imageName) && <img src={imageURL} alt={imageName}
                 onClick={(e: ClickType) => {
@@ -61,7 +68,7 @@ export default function Game() {
                 className="mainImage"
                  />}
                 { isGameOver && <AddScore/>}
-                {showBox ? <OptionBox closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
+                {showBox ? <OptionBox showWrong={showWrongAnswer} closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
             </div>
         </main>
     )
