@@ -82,7 +82,7 @@ export const apiSlice = createApi({
                 async onQueryStarted({body, gameid}, lifecycleApi) {
                     try {
                     const {data: res} = await lifecycleApi.queryFulfilled;
-                    if (res.message === "Correct Coordinates") {
+                    if (res.message === "Correct Coordinates" || res.message === "Game Finished") {
                         // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
                         const patchResult = lifecycleApi.dispatch(
                             apiSlice.util.updateQueryData("getCharacters", gameid, draft => {

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ClickType } from '../../util/types';
 import { selectUrl, selectName } from "./image-slice";
 import OptionBox from "./OptionBox";
@@ -52,16 +52,18 @@ export default function Game() {
         }
     }
     /// ADD IMAGE ELEMENT AND PUT THE CLICK EVENT THERE INSTEAD
-    if (!gameInfo) {
-        navigate("/");
-    };
+    useEffect(() => {
+        if (!gameInfo) {
+            navigate("/");
+        };
+    }, [gameInfo, navigate]);
 
     return (
         <main>
             <CharTracker />
             <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
             <div>
-                {(imageURL && imageName) && <img src={imageURL} alt={imageName}
+                {(imageURL !== "0" && imageName !=="0") && <img src={imageURL} alt={imageName}
                 onClick={(e: ClickType) => {
                     handleOnClick(e);
                 }}

@@ -21,6 +21,9 @@ export default function CharTracker() {
     return (
         <div>
             {charsInfo ? charsInfo.map((char) => {
+                if (char.found) {
+                    return <div key={char.id}>X</div>
+                }
                 return <CharCustom key={char.id} extraClass="CharTrackDiv" char={char} /> 
             }) :  <button
             onClick={() => refetch()}
