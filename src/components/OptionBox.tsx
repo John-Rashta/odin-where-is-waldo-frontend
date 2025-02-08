@@ -39,12 +39,13 @@ export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsPro
                         coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: charid
                     } 
                 }).unwrap().then((result) => {
-                    if (result.message === "Incorrect Coordinates") {
-                        showWrong();
-                    }
                     if (result.message === "Game Finished") {
                         dispatch(setGameState(true));
                         dispatch(setAddScore(true));
+                    }
+                }).catch((result) => {
+                    if (result.data.message === "Incorrect Coordinates") {
+                        showWrong();
                     }
                 }).finally(() => {
                     closeBox();

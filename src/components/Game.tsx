@@ -2,12 +2,12 @@ import { useState, useCallback, useEffect } from "react";
 import { ClickType } from '../../util/types';
 import { selectUrl, selectName } from "./image-slice";
 import OptionBox from "./OptionBox";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AddScore from "./AddScore";
 import CharTracker from "./CharTracker";
 import { useStartGameMutation } from "./game-api-slice";
 import { useNavigate } from "react-router-dom";
-import { selectGameState } from "./manager-slice";
+import { selectGameState, setAddScore } from "./manager-slice";
 
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
@@ -17,6 +17,7 @@ export default function Game() {
     const imageURL = useSelector(selectUrl);
     const imageName = useSelector(selectName);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
      const [trigger, {gameInfo}] = useStartGameMutation({
         fixedCacheKey: "game-id-mutation",
@@ -57,9 +58,13 @@ export default function Game() {
             navigate("/");
         };
     }, [gameInfo, navigate]);
-
+    
     return (
         <main>
+            {isGameOver && <button onClick={() => {
+                    dispatch(setAddScore(true));
+                }
+            }>Add Score</button>}
             <CharTracker />
             <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
             <div>

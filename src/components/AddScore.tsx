@@ -21,27 +21,32 @@ export default function AddScore() {
         })
     });
     const navigate = useNavigate();
-
     useEffect(() => {
         setModalState(currentOpenState);
 
     },[currentOpenState]);
 
-    const closeModal = () => setModalState(false);
+    const closeModal = () => {
+        dispatch(setAddScore(false));
+    };
 
     const handleSubmit = function handleSubmitOfUsername(event: FormType ) {
         event.preventDefault();
         const currentTarget = event.target as HTMLFormElement;
         if (!currentTarget.username.value || currentTarget.username.value  === "") {
+            dispatch(setAddScore(false));
             return;
         }
         if (!gameInfo) {
+            dispatch(setAddScore(false));
             return;
         }
         addToScore({username: currentTarget.username.value as string, gameid: gameInfo}).unwrap().then((result) => {
             if (result.message === "Added to Scoreboard") {
                 navigate("/scoreboard");
             };
+        }).catch((result) => {
+            console.log(result.data.message)
         });
         dispatch(setAddScore(false));
     };
