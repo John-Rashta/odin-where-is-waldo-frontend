@@ -28,6 +28,8 @@ export default function ImageSelection() {
                     } else {
                         navigate("/game");
                     }
+                }).catch(() => {
+                    console.log("Game Start Failed")
                 });
                 return;
             };
