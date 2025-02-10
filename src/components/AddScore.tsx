@@ -6,8 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { selectOpenScoreState, setAddScore } from "./manager-slice";
 import { useSelector, useDispatch } from "react-redux";
 
-Modal.setAppElement('#root');
-
 export default function AddScore() {
     const [modalState, setModalState] = useState(false);
     const currentOpenState = useSelector(selectOpenScoreState);

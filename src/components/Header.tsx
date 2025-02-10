@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom"
+import NavMenu from "./NavMenu";
 
 export default function Header() {
     return (
@@ -9,6 +10,7 @@ export default function Header() {
                 <NavLink to="/">New Game</NavLink>
                 <NavLink to="/game">Game</NavLink>
                 <NavLink to="/scoreboard">Scoreboard</NavLink>
+                <NavMenu />
             </nav>
         </header>
     )
