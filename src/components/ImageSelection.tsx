@@ -4,6 +4,7 @@ import { setGameState } from "./manager-slice";
 import { ClickType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { setStart, setEnd } from "./timer-slice";
 
 export default function ImageSelection() {
     const { data, error, isLoading} = useFetchImagesQuery();
@@ -26,6 +27,8 @@ export default function ImageSelection() {
                     if (!result.game) {
                         return;
                     } else {
+                        dispatch(setStart(Date.now()));
+                        dispatch(setEnd(0));
                         navigate("/game");
                     }
                 }).catch(() => {

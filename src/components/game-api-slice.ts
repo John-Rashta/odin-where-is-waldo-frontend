@@ -24,6 +24,7 @@ interface ScoreData {
     time: string,
     username: string,
     map: {id: string, name: string},
+    gameid: string
 }
 
 interface ScoresReturn {

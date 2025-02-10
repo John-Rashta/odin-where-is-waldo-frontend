@@ -24,15 +24,17 @@ export default function Scoreboard() {
                 <table>
                     <thead>
                         <tr>
+                            <th>Place</th>
                             <th>Username</th>
                             <th>Image</th>
                             <th>time</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.scores.map((entry) => {
+                        {data.scores.map((entry, index) => {
                             return (
                                 <tr key={entry.username + entry.time + entry.map.id}>
+                                    <td>{index + 1}</td>
                                     <td>{entry.username}</td>
                                     <td>{entry.time}</td>
                                     <td>{entry.map.name}</td>
@@ -41,6 +43,9 @@ export default function Scoreboard() {
                         })}
                         {gameScore && 
                             <tr>
+                                <td>{data.scores.findIndex((entry) => {
+                                    return entry.gameid === gameInfo;
+                                }) + 1 || "??"}</td>
                                 <td>{gameScore.username} </td>
                                 <td>{gameScore.time} </td>
                                 <td>{gameScore.map.name} </td>

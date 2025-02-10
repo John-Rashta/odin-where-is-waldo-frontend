@@ -6,6 +6,7 @@ import { selectGameState, setGameState, setAddScore } from "./manager-slice"
 import { useDispatch, useSelector } from "react-redux"
 import CharCustom from "./CharCustom"
 import { skipToken } from "@reduxjs/toolkit/query"
+import { setEnd } from "./timer-slice"
 
 export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsProp: CoordsProp, closeBox: SimpleFunctionType, showWrong: SimpleFunctionType , children? : ReactNode }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
@@ -43,6 +44,7 @@ export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsPro
                         showWrong();
                     }
                     if (result.message === "Game Finished") {
+                        dispatch(setEnd(Date.now()));
                         dispatch(setGameState(true));
                         dispatch(setAddScore(true));
                     }

@@ -8,6 +8,7 @@ import CharTracker from "./CharTracker";
 import { useStartGameMutation } from "./game-api-slice";
 import { useNavigate } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
+import Timer from "./Timer";
 
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
@@ -66,6 +67,7 @@ export default function Game() {
                 }
             }>Add Score</button>}
             <CharTracker />
+            <Timer />
             <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
             <div>
                 {(imageURL !== "0" && imageName !=="0") && <img src={imageURL} alt={imageName}
