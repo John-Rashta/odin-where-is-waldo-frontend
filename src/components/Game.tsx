@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AddScore from "./AddScore";
 import CharTracker from "./CharTracker";
 import { useStartGameMutation } from "./game-api-slice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
 import Timer from "./Timer";
 
@@ -60,25 +60,31 @@ export default function Game() {
         };
     }, [gameInfo, navigate]);
     
-    return (
-        <main>
-            {isGameOver && <button onClick={() => {
-                    dispatch(setAddScore(true));
-                }
-            }>Add Score</button>}
-            <CharTracker />
-            <Timer />
-            <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
-            <div>
-                {(imageURL !== "0" && imageName !=="0") && <img src={imageURL} alt={imageName}
-                onClick={(e: ClickType) => {
-                    handleOnClick(e);
-                }}
-                className="mainImage"
-                 />}
-                { isGameOver && <AddScore/>}
-                {showBox ? <OptionBox showWrong={showWrongAnswer} closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
-            </div>
-        </main>
-    )
+    if (gameInfo) {
+        return (
+            <main>
+                {isGameOver && <button onClick={() => {
+                        dispatch(setAddScore(true));
+                    }
+                }>Add Score</button>}
+                <CharTracker />
+                <Timer />
+                <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
+                <div>
+                    {(imageURL !== "0" && imageName !=="0") && <img src={imageURL} alt={imageName}
+                    onClick={(e: ClickType) => {
+                        handleOnClick(e);
+                    }}
+                    className="mainImage"
+                    />}
+                    { isGameOver && <AddScore/>}
+                    {showBox ? <OptionBox showWrong={showWrongAnswer} closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
+                </div>
+            </main>
+        )
+    } else {
+        return (
+            <h2>Please start a game <Link to={"/"}>Here</Link> </h2>
+        )
+    }
 }
