@@ -9,6 +9,7 @@ import { useStartGameMutation } from "./game-api-slice";
 import { useNavigate, Link } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
 import Timer from "./Timer";
+import styled from "styled-components";
 
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
@@ -62,7 +63,7 @@ export default function Game() {
     
     if (gameInfo) {
         return (
-            <main>
+            <StyledMain>
                 {isGameOver && <button onClick={() => {
                         dispatch(setAddScore(true));
                     }
@@ -77,14 +78,22 @@ export default function Game() {
                     }}
                     className="mainImage"
                     />}
-                    { isGameOver && <AddScore/>}
+                    <AddScore/>
                     {showBox ? <OptionBox showWrong={showWrongAnswer} closeBox={closeShowBox} coordsProp={{top: coords.coordY, left: coords.coordX, adjustedX: coords.adjustedX, adjustedY: coords.adjustedY}}  > </OptionBox> : null}
                 </div>
-            </main>
+            </StyledMain>
         )
     } else {
         return (
-            <h2>Please start a game <Link to={"/"}>Here</Link> </h2>
+            <StyledFullErrorPage>Please start a game <Link to={"/"}>Here</Link> </StyledFullErrorPage>
         )
     }
 }
+
+const StyledMain = styled.main`
+    grid-row: 1/3;
+`
+
+const StyledFullErrorPage = styled.h2`
+    grid-row: 1/3;
+`
