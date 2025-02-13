@@ -5,6 +5,7 @@ import { ClickType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setStart, setEnd } from "./timer-slice";
+import styled from "styled-components";
 
 export default function ImageSelection() {
     const { data, error, isLoading} = useFetchImagesQuery();
@@ -43,25 +44,35 @@ export default function ImageSelection() {
     };
 
     return (
-        <main>
-            { isLoading ? <div>Loading...</div> : error ? <div>Error Loading</div> : data && data.map((image) => {
-                return (
-                    <div
-                    className="ImageOption"
-                    data-id={image.id}
-                    data-name={image.name}
-                    data-url={image.url}
-                    onClick={
-                        (e) => {
-                            handleClick(e);
+        <StyledMain>
+            <StyledDivContainer>
+                { isLoading ? <div>Loading...</div> : error ? <div>Error Loading</div> : data && data.map((image) => {
+                    return (
+                        <StyledOptions
+                        className="ImageOption"
+                        data-id={image.id}
+                        data-name={image.name}
+                        data-url={image.url}
+                        onClick={
+                            (e) => {
+                                handleClick(e);
+                            }
                         }
-                    }
-                    key={image.id}>
-                        {image.name}
-                    </div>
-                )
-            })}
-            
-        </main>
+                        key={image.id}>
+                            {image.name}
+                        </StyledOptions>
+                    )
+                })}
+            </StyledDivContainer>
+        </StyledMain>
     )
 }
+
+const StyledDivContainer = styled.div`
+`;
+
+const StyledMain = styled.main`
+`;
+
+const StyledOptions = styled.div`
+`;
