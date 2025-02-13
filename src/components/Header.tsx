@@ -38,4 +38,5 @@ const StyledHeader = styled.header<{$inGame?: boolean;}>`
 const StyledNav = styled.nav`
     display: flex;
     justify-content: space-between;
+    align-items: center;
 `;

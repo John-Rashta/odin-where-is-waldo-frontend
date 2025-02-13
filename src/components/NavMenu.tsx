@@ -2,6 +2,7 @@ import Modal from "react-modal";
 import { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import { X, AlignJustify } from "lucide-react";
 
 export default function NavMenu() {
     const [visible, setVisible] = useState(false);
@@ -13,7 +14,7 @@ export default function NavMenu() {
         <>
         <StyledButton
         onClick={openModal}
-        >Open</StyledButton>
+        ><AlignJustify/></StyledButton>
         <StyledModal 
         $visible={visible}
         isOpen={visible}
@@ -32,7 +33,7 @@ export default function NavMenu() {
             <StyledButtonDiv>
                 <StyledCloseButton
                 onClick={closeModal}
-                >X</StyledCloseButton>
+                ><X /></StyledCloseButton>
             </StyledButtonDiv>
         </StyledModal>
         </>
@@ -48,6 +49,8 @@ const StyledModal = styled(Modal)<{$visible?: boolean}>`
 `;
 
 const StyledButton = styled.button`
+    display: flex;
+    padding: 5px;
     @media only screen and (min-width: 769px) {
     display: none;
     }
@@ -64,6 +67,9 @@ const StyledCloseButton = styled.button`
     display:flex;
     align-items: center;
     justify-content: center;
+    padding: 5px;
+    border-radius: 20px;
+    border: solid black 1px;
 `
 
 const StyledExtraSpace = styled.div`
