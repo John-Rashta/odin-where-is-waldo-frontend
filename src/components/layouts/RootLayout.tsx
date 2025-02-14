@@ -5,6 +5,9 @@ import Modal from "react-modal";
 import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+    * {
+        margin: 0px;
+    }
     #root {
         height: 100%;
     }
@@ -16,6 +19,12 @@ const GlobalStyle = createGlobalStyle`
     body {
         height: 100%;
         margin: 0px;
+    }
+
+    main,
+    .RootLayout,
+    body {
+        background-color: #82dbf1;
     }
 
     .NavModal {
@@ -51,7 +60,6 @@ export default function RootLayout() {
 
 const StyledDiv = styled.div`
     min-height: 100%;
-    background-color: #82dbf1;
     display: grid;
     grid-template-rows: auto 1fr auto;
 `;

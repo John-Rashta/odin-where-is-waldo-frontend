@@ -1,5 +1,7 @@
  import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetScoreQuery, useStartGameMutation, useGetScoreOfGameQuery } from "./game-api-slice";
+import styled from "styled-components";
+import { tableInnerPadding } from "../../util/style";
 
 export default function Scoreboard() {
     const { data, error, isLoading } = useGetScoreQuery();
@@ -18,42 +20,60 @@ export default function Scoreboard() {
     });
 
     return (
-        <main>
+        <StyledMain>
             {isLoading ? <div>Loading...</div> : error ? <div>Error Loading!</div> : 
             (data && Array.isArray(data.scores)) ? 
                 <table>
-                    <thead>
+                    <StyledHead>
                         <tr>
-                            <th>Place</th>
-                            <th>Username</th>
-                            <th>Image</th>
-                            <th>time</th>
+                            <StyledTh>Place</StyledTh>
+                            <StyledTh>Username</StyledTh>
+                            <StyledTh>Time</StyledTh>
+                            <StyledTh>Image</StyledTh>
                         </tr>
-                    </thead>
+                    </StyledHead>
                     <tbody>
                         {data.scores.map((entry, index) => {
                             return (
                                 <tr key={entry.username + entry.time + entry.map.id}>
-                                    <td>{index + 1}</td>
-                                    <td>{entry.username}</td>
-                                    <td>{entry.time}</td>
-                                    <td>{entry.map.name}</td>
+                                    <StyledTd>{index + 1}</StyledTd>
+                                    <StyledTd>{entry.username}</StyledTd>
+                                    <StyledTd>{entry.time}</StyledTd>
+                                    <StyledTd>{entry.map.name}</StyledTd>
                                 </tr>
                                 )
                         })}
                         {gameScore && 
                             <tr>
-                                <td>{data.scores.findIndex((entry) => {
+                                <StyledTd>{data.scores.findIndex((entry) => {
                                     return entry.gameid === gameInfo;
-                                }) + 1 || "??"}</td>
-                                <td>{gameScore.username} </td>
-                                <td>{gameScore.time} </td>
-                                <td>{gameScore.map.name} </td>
+                                }) + 1 || "??"}</StyledTd>
+                                <StyledTd>{gameScore.username} </StyledTd>
+                                <StyledTd>{gameScore.time} </StyledTd>
+                                <StyledTd>{gameScore.map.name} </StyledTd>
                             </tr> 
                         }
                     </tbody>   
                 </table>
             : <div>No entries in scoreboard yet.</div> }
-        </main>
+        </StyledMain>
     )
 };
+
+const StyledMain = styled.main`
+    display: flex;
+    align-items: start;
+    justify-content: center;
+`;
+
+const StyledTh = styled.th`
+    ${tableInnerPadding}
+`;
+
+const StyledTd = styled.td`
+    ${tableInnerPadding}
+`;
+
+const StyledHead = styled.thead`
+    text-align: left;
+`;

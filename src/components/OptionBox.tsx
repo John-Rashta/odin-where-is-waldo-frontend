@@ -62,12 +62,12 @@ export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsPro
     return (
         <div className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", ...coordsProp}}>
             {charsInfo ? charsInfo.map((char) => {
-                return <StyledChar key={char.id} extraClass="charOption" char={char} />
+                return <StyledChar key={char.id} extraClass="charOption" char={char}/>
             })  :  <div>No Characters Found.</div>  }
         </div>
     )
 }
 
 const StyledChar = styled(CharCustom)`
-background-color: #BF4F74;
+    background-color: #BF4F74;
 `;

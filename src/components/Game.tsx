@@ -64,15 +64,19 @@ export default function Game() {
     if (gameInfo) {
         return (
             <StyledMain>
-                {isGameOver && <button onClick={() => {
-                        dispatch(setAddScore(true));
-                    }
-                }>Add Score</button>}
-                <CharTracker />
-                <Timer />
-                <div>{wrongAnswer && "Incorrect Coordinates!"}</div>
+                <StyledTop>
+                    <CharTracker />
+                    <StyledTimeScore>
+                        <Timer />
+                        {isGameOver && <button onClick={() => {
+                                dispatch(setAddScore(true));
+                            }
+                        }>Add Score</button>}
+                    </StyledTimeScore>
+                    {wrongAnswer && <StyledWrongAnswer>Incorrect Coordinates!</StyledWrongAnswer>}
+                </StyledTop>
                 <div>
-                    {(imageURL !== "0" && imageName !=="0") && <img src={imageURL} alt={imageName}
+                    {(imageURL !== "0" && imageName !=="0") && <StyledImage src={imageURL} alt={imageName}
                     onClick={(e: ClickType) => {
                         handleOnClick(e);
                     }}
@@ -92,8 +96,34 @@ export default function Game() {
 
 const StyledMain = styled.main`
     grid-row: 1/3;
-`
+`;
 
 const StyledFullErrorPage = styled.h2`
     grid-row: 1/3;
+`;
+
+const StyledTop = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const StyledTimeScore = styled.div`
+    align-items: center;
+    display: flex;
+    gap: 5px;
+    padding: 5px;
+`;
+
+const StyledWrongAnswer = styled.div`
+    position: absolute;
+    bottom: -2.5rem;
+    z-index: 5;
+`;
+
+const  StyledImage = styled.img`
+    max-width: 150vw;
+    @media only screen and (max-width: 700px) {
+        max-width: 250vw;
+    };
 `

@@ -1,19 +1,20 @@
 import { NavLink, useLocation } from "react-router-dom"
 import NavMenu from "./NavMenu";
 import styled from "styled-components";
+import { activeNav, headerHeight, headerPadding } from "../../util/style";
 
 export default function Header() {
     const location = useLocation();
 
     return (
         ///TODO ADD THE ROUTES HERE
-        <StyledHeader $inGame={location.pathname === "/game"}>
+        <StyledHeader $inGame={location.pathname === "/notnow"}>
             <StyledNav>
                 <h1>Find Waldo</h1>
                 <StyledNavGroup>
-                    <NavLink to="/">New Game</NavLink>
-                    <NavLink to="/game">Game</NavLink>
-                    <NavLink to="/scoreboard">Scoreboard</NavLink>
+                    <StyledNavLink to="/">New Game</StyledNavLink>
+                    <StyledNavLink to="/game">Game</StyledNavLink>
+                    <StyledNavLink to="/scoreboard">Scoreboard</StyledNavLink>
                 </StyledNavGroup>
                 <NavMenu />
             </StyledNav>
@@ -32,11 +33,17 @@ const StyledNavGroup = styled.div`
 
 const StyledHeader = styled.header<{$inGame?: boolean;}>`
     position: ${props => props.$inGame ? "fixed" : "static"};
-    padding: 10px;
+    padding: ${headerPadding};
+    height: ${headerHeight};
 `;
 
 const StyledNav = styled.nav`
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+`;
+
+const  StyledNavLink = styled(NavLink)`
+    ${activeNav}
 `;

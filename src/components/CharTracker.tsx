@@ -1,6 +1,7 @@
 import { useGetCharactersQuery, useStartGameMutation } from "./game-api-slice";
 import CharCustom from "./CharCustom";
 import { skipToken } from "@reduxjs/toolkit/query";
+import styled from "styled-components";
 
 export default function CharTracker() {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -19,15 +20,17 @@ export default function CharTracker() {
     });
 
     return (
-        <div>
+        <StyledCharTrack>
             {charsInfo ? charsInfo.map((char) => {
-                if (char.found) {
-                    return <div key={char.id}>X</div>
-                }
-                return <CharCustom key={char.id} extraClass="CharTrackDiv" char={char} /> 
+                return <CharCustom key={char.id} extraClass="CharTrackDiv" char={char} namePresent={true} /> 
             }) :  <button
             onClick={() => refetch()}
             >Try Again</button> }
-        </div>
+        </StyledCharTrack>
     )
 }
+
+const StyledCharTrack = styled.div`
+    display:flex;
+    gap: 5px;
+`;
