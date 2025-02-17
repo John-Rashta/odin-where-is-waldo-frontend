@@ -21,7 +21,7 @@ export default function Scoreboard() {
 
     return (
         <StyledMain>
-            {isLoading ? <div>Loading...</div> : error ? <div>Error Loading!</div> : 
+            {isLoading ? <CustomDiv>Loading...</CustomDiv> : error ? <CustomDiv>Error Loading!</CustomDiv> : 
             (data && Array.isArray(data.scores)) ? 
                 <table>
                     <StyledHead>
@@ -55,7 +55,7 @@ export default function Scoreboard() {
                         }
                     </tbody>   
                 </table>
-            : <div>No entries in scoreboard yet.</div> }
+            : <CustomDiv>No entries in scoreboard yet.</CustomDiv> }
         </StyledMain>
     )
 };
@@ -76,4 +76,8 @@ const StyledTd = styled.td`
 
 const StyledHead = styled.thead`
     text-align: left;
+`;
+
+const CustomDiv = styled.div`
+    align-self: center;
 `;

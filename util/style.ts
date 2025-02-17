@@ -24,4 +24,18 @@ height: 90px;
      height: 50px;
 };`;
 
-export { mainStyles, tableInnerPadding, activeNav, headerHeight, headerPadding, imageSize };
+const gameTopPadding = `5px`;
+
+const gameTopFont = `1.3rem`;
+
+const gameTopFontMin = `1rem`;
+
+const gameTop = `(100px +  ${gameTopFont})`;
+
+const gameTopMin = `(60px + ${gameTopFontMin})`;
+
+const fullCalcTop = `${headerHeight} + ${headerPadding} + ${gameTop} + ${gameTopPadding}`;
+
+const fullCalcTopMin = `${headerHeight} + ${headerPadding} + ${gameTopMin} + ${gameTopPadding}`;
+
+export { mainStyles, tableInnerPadding, activeNav, headerHeight, headerPadding, imageSize, gameTop, gameTopMin, gameTopPadding, gameTopFont, gameTopFontMin, fullCalcTop, fullCalcTopMin };

@@ -2,6 +2,7 @@ import { useGetCharactersQuery, useStartGameMutation } from "./game-api-slice";
 import CharCustom from "./CharCustom";
 import { skipToken } from "@reduxjs/toolkit/query";
 import styled from "styled-components";
+import { gameTopFont, gameTopFontMin } from "../../util/style";
 
 export default function CharTracker() {
     // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -33,4 +34,8 @@ export default function CharTracker() {
 const StyledCharTrack = styled.div`
     display:flex;
     gap: 5px;
+    font-size: ${gameTopFont};
+    @media only screen and (max-width: 450px) {
+        font-size: ${gameTopFontMin};
+    };
 `;

@@ -28,10 +28,11 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .NavModal {
+        z-index: 6;
         position: fixed;
         inset: 0px;
         transform: translate(-100%);
-        transition: transform 1000ms ease-in-out;
+        transition: transform 500ms ease-in-out;
         background-color: rgba(255, 255, 255, 0.75);
     }
 
@@ -41,6 +42,26 @@ const GlobalStyle = createGlobalStyle`
 
     .NavModal--before-close{
         transform: translate(-100%);
+    }
+
+    .scoreModal {
+        z-index: 6;
+        position: fixed;
+        inset: 0px;
+        transform: translateY(-100%);
+        transition: transform 500ms ease-in-out;
+        background-color: rgba(255, 255, 255, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .scoreModal--after-open{
+        transform: translateY(0%);
+    }
+
+    .scoreModal--before-close{
+        transform: translateY(-100%);
     }
 `;
 

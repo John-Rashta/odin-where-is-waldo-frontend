@@ -9,8 +9,14 @@ import { useStartGameMutation } from "./game-api-slice";
 import { useNavigate, Link } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
 import Timer from "./Timer";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+import { gameTop, gameTopMin, headerHeight, headerPadding, gameTopPadding, fullCalcTop, fullCalcTopMin } from "../../util/style";
 
+const GlobalStyle = createGlobalStyle`
+    .RootLayout {
+        min-height: auto;
+    }
+`;
 export default function Game() {
     const [showBox, setShowBox] = useState(false);
     const [coords, setCoords] = useState({coordX: 0, coordY: 0, adjustedX: 0, adjustedY:0});
@@ -48,9 +54,11 @@ export default function Game() {
         const rect = currentTarget.getBoundingClientRect();
         const scaleX = currentTarget.naturalWidth / rect.width;
         const scaleY = currentTarget.naturalHeight / rect.height;
-        const finalX = Math.floor(scaleX * (mouseX - rect.left));
-        const finalY = Math.floor(scaleY * (mouseY - rect.top));
-        setCoords({coordX: event.pageX, coordY: event.pageY, adjustedX: finalX, adjustedY: finalY});
+        const absoluteX = mouseX - rect.left;
+        const absoluteY = mouseY - rect.top;
+        const finalX = Math.floor(scaleX * absoluteX);
+        const finalY = Math.floor(scaleY * absoluteY);
+        setCoords({coordX: absoluteX, coordY: absoluteY, adjustedX: finalX, adjustedY: finalY});
         setShowBox(true);
         }
     }
@@ -64,6 +72,7 @@ export default function Game() {
     if (gameInfo) {
         return (
             <StyledMain>
+                <GlobalStyle/>
                 <StyledTop>
                     <CharTracker />
                     <StyledTimeScore>
@@ -96,16 +105,32 @@ export default function Game() {
 
 const StyledMain = styled.main`
     grid-row: 1/3;
+    position: relative;
+    top: calc(${fullCalcTop});
+    @media only screen and (max-width: 450px) {
+        top: calc(${fullCalcTopMin});
+    };
 `;
 
 const StyledFullErrorPage = styled.h2`
     grid-row: 1/3;
+    align-self: center;
+    justify-self: center;
 `;
 
 const StyledTop = styled.div`
-    position: relative;
+    position: fixed;
     display: flex;
     justify-content: space-between;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    padding: ${gameTopPadding};
+    height: calc(${gameTop});
+    top: calc(${headerHeight} + ${headerPadding});
+    @media only screen and (max-width: 450px) {
+        height: calc(${gameTopMin});
+    };
 `;
 
 const StyledTimeScore = styled.div`

@@ -5,6 +5,7 @@ import { FormType } from "../../util/types";
 import { useNavigate } from "react-router-dom";
 import { selectOpenScoreState, setAddScore } from "./manager-slice";
 import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
 
 export default function AddScore() {
     const [modalState, setModalState] = useState(false);
@@ -50,7 +51,9 @@ export default function AddScore() {
     };
 
     return (
-        <Modal
+        <StyledModal
+        closeTimeoutMS={500}
+        overlayClassName={{base: "scoreModal", afterOpen:"scoreModal--after-open", beforeClose:"scoreModal--before-close"}}
         isOpen={modalState}
         onRequestClose={closeModal}
         >
@@ -61,7 +64,16 @@ export default function AddScore() {
                 <input type="text" name="username" />
                 <button type="submit">Add</button>
             </form>
-        </Modal>
+        </StyledModal>
 
     )
 };
+
+const StyledModal = styled(Modal)`
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(204, 204, 204);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+`;

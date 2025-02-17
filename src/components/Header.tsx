@@ -8,7 +8,7 @@ export default function Header() {
 
     return (
         ///TODO ADD THE ROUTES HERE
-        <StyledHeader $inGame={location.pathname === "/notnow"}>
+        <StyledHeader $inGame={location.pathname === "/game"}>
             <StyledNav>
                 <h1>Find Waldo</h1>
                 <StyledNavGroup>
@@ -35,6 +35,9 @@ const StyledHeader = styled.header<{$inGame?: boolean;}>`
     position: ${props => props.$inGame ? "fixed" : "static"};
     padding: ${headerPadding};
     height: ${headerHeight};
+    z-index: 5;
+    left: 0;
+    right: 0;
 `;
 
 const StyledNav = styled.nav`

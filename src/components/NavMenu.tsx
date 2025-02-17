@@ -15,11 +15,10 @@ export default function NavMenu() {
         <StyledButton
         onClick={openModal}
         ><AlignJustify/></StyledButton>
-        <StyledModal 
-        $visible={visible}
+        <StyledModal
         isOpen={visible}
         onRequestClose={closeModal}
-        closeTimeoutMS={1000}
+        closeTimeoutMS={500}
         overlayClassName={{base: "NavModal", afterOpen:"NavModal--after-open", beforeClose:"NavModal--before-close"}}
         
         >
@@ -41,7 +40,7 @@ export default function NavMenu() {
     )
 }
 
-const StyledModal = styled(Modal)<{$visible?: boolean}>`
+const StyledModal = styled(Modal)`
     display: flex;
     position: relative;
     max-width: 20rem;
