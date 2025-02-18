@@ -1,6 +1,6 @@
  import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetScoreQuery, useStartGameMutation, useGetScoreOfGameQuery } from "./game-api-slice";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { tableInnerPadding, LoadingDivStyle } from "../../util/style";
 
 export default function Scoreboard() {
@@ -21,7 +21,7 @@ export default function Scoreboard() {
 
     return (
         <StyledMain>
-            {isLoading ? <CustomDiv>Loading...</CustomDiv> : error ? <CustomDiv>Error Loading!</CustomDiv> : 
+            {isLoading ? <><GlobalStyle/><CustomDiv>Loading...</CustomDiv></> : error ? <><GlobalStyle/><CustomDiv>Error Loading!</CustomDiv></> : 
             (data && Array.isArray(data.scores)) ?
             <>
                 <StyledTitle2>Leaderboard</StyledTitle2>
@@ -58,10 +58,16 @@ export default function Scoreboard() {
                     </StyledBody>   
                 </StyledTable>
             </>
-            : <CustomDiv>No entries in scoreboard yet.</CustomDiv> }
+            : <><GlobalStyle/><CustomDiv>No entries in scoreboard yet.</CustomDiv></> }
         </StyledMain>
     )
 };
+
+const GlobalStyle = createGlobalStyle`
+    main {
+        justify-content: center !important;
+    };
+`;
 
 const StyledMain = styled.main`
     display: flex;

@@ -55,7 +55,11 @@ const StyledButton = styled.button`
     font-size: 0.9rem;
     @media only screen and (max-width: ${mediaForScoreTime}) {
         padding: 5px;
-    }; 
+    };
+    &:hover {
+        background-color: rgb(255, 238, 0);
+        border-color: black;
+    };
 `;
 
 const imageSize = `width: 90px;

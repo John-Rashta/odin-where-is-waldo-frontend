@@ -62,7 +62,7 @@ export default function Game() {
         setShowBox(true);
         }
     }
-    /// ADD IMAGE ELEMENT AND PUT THE CLICK EVENT THERE INSTEAD
+    
     useEffect(() => {
         if (!gameInfo) {
             navigate("/");
