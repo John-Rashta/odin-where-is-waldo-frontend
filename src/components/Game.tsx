@@ -10,7 +10,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
 import Timer from "./Timer";
 import styled, { createGlobalStyle } from "styled-components";
-import { gameTop, gameTopMin, headerHeight, headerPadding, gameTopPadding, fullCalcTop, fullCalcTopMin, mediaGameValue, LoadingDivStyle, StyledButton } from "../../util/style";
+import { gameTop, gameTopMin, headerHeight, headerPadding, gameTopPadding, fullCalcTop, fullCalcTopMin, mediaGameValue, LoadingDivStyle, StyledButton, gameTopFontMin } from "../../util/style";
 
 const GlobalStyle = createGlobalStyle`
     .RootLayout {
@@ -36,9 +36,12 @@ export default function Game() {
     const closeShowBox = useCallback(() => setShowBox(false), []);
 
     const showWrongAnswer = useCallback(() => {
+        if (wrongAnswer) {
+            return;
+        }
         setWrongAnswer(true);
-        setTimeout(() => setWrongAnswer(false), 15000);
-    },[]);
+        setTimeout(() => setWrongAnswer(false), 5000);
+    },[wrongAnswer]);
 
     function handleOnClick(event: ClickType) {
         /// MIGHT CHANGE IT SO THAT IT CLOSES WHEN IT GETS CLICKED AND SHOWBOX IS TRUE INSTEAD OF HAVING THE WHOLE CODE IN THE OTHER ONE
@@ -146,6 +149,13 @@ const StyledWrongAnswer = styled.div`
     position: absolute;
     bottom: -2.5rem;
     z-index: 5;
+    font-size: 1.1rem;
+    background-color:  rgb(211, 236, 243);
+    padding: 10px;
+    border: solid black 2px;
+     @media only screen and (max-width: ${mediaGameValue}) {
+        font-size: ${gameTopFontMin};
+    };
 `;
 
 const  StyledImage = styled.img`
