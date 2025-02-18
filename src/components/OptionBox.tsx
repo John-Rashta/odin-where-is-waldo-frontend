@@ -35,7 +35,6 @@ export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsPro
         }
         if (target.classList.contains("charOption") || target.parentElement && target.parentElement.classList.contains("charOption")) {
             const charid = target.dataset.id || target.parentElement && target.parentElement.dataset.id;
-            ///TODO SAVE THE OPTION SELECTED
             if (gameInfo && charid) {
                 updateGame({gameid: gameInfo, body: {
                         coordX: coordsProp.adjustedX, coordY: coordsProp.adjustedY, char: charid
@@ -60,14 +59,24 @@ export default function OptionBox({coordsProp, closeBox, showWrong} : {coordsPro
    }
 
     return (
-        <div className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", ...coordsProp}}>
+        <StyledOptionBox className="optionBox" onClick={(e: ClickType) => {handleSelection(e)}} style={{position: "absolute", ...coordsProp}}>
             {charsInfo ? charsInfo.map((char) => {
-                return <StyledChar key={char.id} extraClass="charOption" char={char}/>
-            })  :  <div>No Characters Found.</div>  }
-        </div>
+                return <CharCustom key={char.id} extraClass="charOption" char={char}/>
+            })  :  <StyledErrorMessage>No Characters Found.</StyledErrorMessage>  }
+        </StyledOptionBox>
     )
 }
 
-const StyledChar = styled(CharCustom)`
-    background-color: #BF4F74;
+const StyledOptionBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color:  rgb(52, 177, 182);
+    border: solid  rgb(0, 66, 57) 3px;
+`;
+
+const StyledErrorMessage = styled.div`
+    font-size: 1rem;
+    padding: 10px;
+
 `;

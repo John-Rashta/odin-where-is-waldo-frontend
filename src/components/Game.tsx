@@ -10,7 +10,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { selectGameState, setAddScore } from "./manager-slice";
 import Timer from "./Timer";
 import styled, { createGlobalStyle } from "styled-components";
-import { gameTop, gameTopMin, headerHeight, headerPadding, gameTopPadding, fullCalcTop, fullCalcTopMin } from "../../util/style";
+import { gameTop, gameTopMin, headerHeight, headerPadding, gameTopPadding, fullCalcTop, fullCalcTopMin, mediaGameValue, LoadingDivStyle, StyledButton } from "../../util/style";
 
 const GlobalStyle = createGlobalStyle`
     .RootLayout {
@@ -77,10 +77,10 @@ export default function Game() {
                     <CharTracker />
                     <StyledTimeScore>
                         <Timer />
-                        {isGameOver && <button onClick={() => {
+                        {isGameOver && <StyledScoreButton onClick={() => {
                                 dispatch(setAddScore(true));
                             }
-                        }>Add Score</button>}
+                        }>Add Score</StyledScoreButton>}
                     </StyledTimeScore>
                     {wrongAnswer && <StyledWrongAnswer>Incorrect Coordinates!</StyledWrongAnswer>}
                 </StyledTop>
@@ -98,27 +98,29 @@ export default function Game() {
         )
     } else {
         return (
-            <StyledFullErrorPage>Please start a game <Link to={"/"}>Here</Link> </StyledFullErrorPage>
+            <StyledFullErrorPage>Please start a game <Link to="/">Here</Link> </StyledFullErrorPage>
         )
     }
 }
 
 const StyledMain = styled.main`
+    overflow: auto;
     grid-row: 1/3;
     position: relative;
     top: calc(${fullCalcTop});
-    @media only screen and (max-width: 450px) {
+    @media only screen and (max-width: ${mediaGameValue}) {
         top: calc(${fullCalcTopMin});
     };
 `;
 
-const StyledFullErrorPage = styled.h2`
+const StyledFullErrorPage = styled(LoadingDivStyle)`
     grid-row: 1/3;
     align-self: center;
     justify-self: center;
 `;
 
 const StyledTop = styled.div`
+    background-color: rgb(88, 202, 236);
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -128,7 +130,7 @@ const StyledTop = styled.div`
     padding: ${gameTopPadding};
     height: calc(${gameTop});
     top: calc(${headerHeight} + ${headerPadding});
-    @media only screen and (max-width: 450px) {
+    @media only screen and (max-width: ${mediaGameValue}) {
         height: calc(${gameTopMin});
     };
 `;
@@ -148,7 +150,11 @@ const StyledWrongAnswer = styled.div`
 
 const  StyledImage = styled.img`
     max-width: 150vw;
-    @media only screen and (max-width: 700px) {
+    display: block;
+    @media only screen and (max-width: 750px) {
         max-width: 250vw;
     };
-`
+`;
+
+const StyledScoreButton = styled(StyledButton)`
+`;

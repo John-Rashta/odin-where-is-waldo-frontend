@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { useLocation } from "react-router-dom";
-import  { fullCalcTop, fullCalcTopMin } from "../../util/style";
+import  { fullCalcTop, fullCalcTopMin, mediaGameValue } from "../../util/style";
 
 export default function Footer() {
     const location = useLocation();
@@ -13,12 +13,13 @@ export default function Footer() {
 };
 
 const StyledFooter = styled.footer<{$inGame?: boolean;}>`
+    background-color: rgb(224, 232, 235);
     display:flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 20px 10px;
     position: ${props => props.$inGame ? "relative" : "static"};
     top: calc(${fullCalcTop});
-    @media only screen and (max-width: 450px) {
+    @media only screen and (max-width: ${mediaGameValue}) {
         top: calc(${fullCalcTopMin});
     }; 
 `;

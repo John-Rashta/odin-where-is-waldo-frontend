@@ -1,7 +1,7 @@
  import { skipToken } from "@reduxjs/toolkit/query";
 import { useGetScoreQuery, useStartGameMutation, useGetScoreOfGameQuery } from "./game-api-slice";
 import styled from "styled-components";
-import { tableInnerPadding } from "../../util/style";
+import { tableInnerPadding, LoadingDivStyle } from "../../util/style";
 
 export default function Scoreboard() {
     const { data, error, isLoading } = useGetScoreQuery();
@@ -22,8 +22,10 @@ export default function Scoreboard() {
     return (
         <StyledMain>
             {isLoading ? <CustomDiv>Loading...</CustomDiv> : error ? <CustomDiv>Error Loading!</CustomDiv> : 
-            (data && Array.isArray(data.scores)) ? 
-                <table>
+            (data && Array.isArray(data.scores)) ?
+            <>
+                <StyledTitle2>Leaderboard</StyledTitle2>
+                <StyledTable>
                     <StyledHead>
                         <tr>
                             <StyledTh>Place</StyledTh>
@@ -32,7 +34,7 @@ export default function Scoreboard() {
                             <StyledTh>Image</StyledTh>
                         </tr>
                     </StyledHead>
-                    <tbody>
+                    <StyledBody>
                         {data.scores.map((entry, index) => {
                             return (
                                 <tr key={entry.username + entry.time + entry.map.id}>
@@ -44,17 +46,18 @@ export default function Scoreboard() {
                                 )
                         })}
                         {gameScore && 
-                            <tr>
+                            <UserScoreRow>
                                 <StyledTd>{data.scores.findIndex((entry) => {
                                     return entry.gameid === gameInfo;
                                 }) + 1 || "??"}</StyledTd>
                                 <StyledTd>{gameScore.username} </StyledTd>
                                 <StyledTd>{gameScore.time} </StyledTd>
                                 <StyledTd>{gameScore.map.name} </StyledTd>
-                            </tr> 
+                            </UserScoreRow> 
                         }
-                    </tbody>   
-                </table>
+                    </StyledBody>   
+                </StyledTable>
+            </>
             : <CustomDiv>No entries in scoreboard yet.</CustomDiv> }
         </StyledMain>
     )
@@ -62,12 +65,16 @@ export default function Scoreboard() {
 
 const StyledMain = styled.main`
     display: flex;
-    align-items: start;
-    justify-content: center;
+    align-items: center;
+    justify-content: start;
+    user-select: none;
+    flex-direction: column;
 `;
 
 const StyledTh = styled.th`
     ${tableInnerPadding}
+    background-color: rgb(0, 131, 120);
+    color: white;
 `;
 
 const StyledTd = styled.td`
@@ -78,6 +85,39 @@ const StyledHead = styled.thead`
     text-align: left;
 `;
 
-const CustomDiv = styled.div`
+const CustomDiv = styled(LoadingDivStyle)`
     align-self: center;
+`;
+
+const StyledTable = styled.table`
+    user-select: text;
+    font-size: 1.1rem;
+    border-color: black;
+    border-spacing: 1px;
+    background-color: rgb(0, 78, 102);
+    @media only screen and (max-width: 470px) {
+        font-size: 0.9rem;
+    }; 
+`;
+
+const StyledBody = styled.tbody`
+    tr:nth-child(odd) {
+        background-color: rgb(50, 200, 211) ;
+    };
+    tr:nth-child(even) {
+        background-color: white;
+    };
+`;
+
+const StyledTitle2 = styled.h2`
+    padding: 20px;
+`;
+
+const UserScoreRow = styled.tr`
+    color:  rgb(0, 0, 0);
+    font-weight: bold;
+    background-color: rgb(94, 145, 238) !important;
+    td {
+        padding: 17px;
+    }
 `;

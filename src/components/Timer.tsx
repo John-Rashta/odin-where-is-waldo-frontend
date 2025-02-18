@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { formatTime } from "../../util/formatTime";
 import { selectGameState } from "./manager-slice";
+import styled from "styled-components";
+import { mediaForScoreTime } from "../../util/style";
 
 export default function Timer() {
     const  [time, setTime] = useState(0);
@@ -28,8 +30,19 @@ export default function Timer() {
     }, [currentGameState, currentStartTime, currentEndTIme]);
 
     return (
-        <h3>
+        <StyledTimer>
             {formatTime(time)}
-        </h3>
+        </StyledTimer>
     );
 };
+
+const StyledTimer = styled.h3`
+    border: solid 2px rgb(83, 95, 105);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(222, 235, 236);
+    @media only screen and (max-width: ${mediaForScoreTime}) {
+        padding: 5px;
+        font-size: 1rem;
+    }; 
+`;

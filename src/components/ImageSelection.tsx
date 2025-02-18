@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setStart, setEnd } from "./timer-slice";
 import styled from "styled-components";
-import { mainStyles } from "../../util/style";
+import { mainStyles, LoadingDivStyle } from "../../util/style";
 
 export default function ImageSelection() {
     const { data, error, isLoading} = useFetchImagesQuery();
@@ -47,7 +47,7 @@ export default function ImageSelection() {
     return (
         <StyledMain>
             <StyledDivContainer $dataPresent={!!data}>
-                { isLoading ? <div>Loading...</div> : error ? <div>Error Loading!</div> : data && data.map((image) => {
+                { isLoading ? <ImageLoadingDiv>Loading...</ImageLoadingDiv> : error ? <ImageLoadingDiv>Error Loading!</ImageLoadingDiv> : data && data.map((image) => {
                     return (
                         <StyledOptions
                         className="ImageOption"
@@ -71,6 +71,7 @@ export default function ImageSelection() {
 
 const StyledDivContainer = styled.div<{$dataPresent?: boolean;}>`
     width: min(500px, 80vw);
+    gap: 10px;
     display: grid;
     grid-template-columns: ${props => props.$dataPresent ? "repeat(auto-fill, 200px)" : "auto"};
     justify-content: center;
@@ -82,11 +83,15 @@ const StyledMain = styled.main`
 `;
 
 const StyledOptions = styled.div`
-    padding: 15px;
+    padding: 13px;
     text-align: center;
     user-select: none;
-
+    background-color: white;
+    border: solid 1px rgb(82, 74, 74);
     &:hover {
-        background-color: gray;
+        background-color: rgb(108, 233, 216);
     }
+`;
+
+const ImageLoadingDiv = styled(LoadingDivStyle)`
 `;

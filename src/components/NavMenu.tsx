@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { X, AlignJustify } from "lucide-react";
+import { navDisplayValue, StyledButtonClose } from "../../util/style";
 
 export default function NavMenu() {
     const [visible, setVisible] = useState(false);
@@ -23,10 +24,10 @@ export default function NavMenu() {
         
         >
             <StyledNav>
-                <h1>Find Waldo</h1>
-                <NavLink onClick={closeModal} to="/">New Game</NavLink>
-                <NavLink onClick={closeModal} to="/game">Game</NavLink>
-                <NavLink onClick={closeModal} to="/scoreboard">Scoreboard</NavLink>
+                <StyledTitle>Find Waldo</StyledTitle>
+                <StyledNavLink onClick={closeModal} to="/">New Game</StyledNavLink>
+                <StyledNavLink onClick={closeModal} to="/game">Game</StyledNavLink>
+                <StyledNavLink onClick={closeModal} to="/scoreboard">Scoreboard</StyledNavLink>
             </StyledNav>
             <StyledExtraSpace></StyledExtraSpace>
             <StyledButtonDiv>
@@ -43,33 +44,28 @@ export default function NavMenu() {
 const StyledModal = styled(Modal)`
     display: flex;
     position: relative;
-    max-width: 20rem;
+    max-width: 25rem;
     width: 100%;
 `;
 
 const StyledButton = styled.button`
     display: flex;
     padding: 5px;
-    @media only screen and (min-width: 769px) {
+    @media only screen and (min-width: ${navDisplayValue}) {
     display: none;
     }
 `;
 
 const StyledNav = styled.nav`
-    background-color: purple;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
     display: flex;
     flex-direction: column;
     flex: 1 1 0%;
 `;
 
-const StyledCloseButton = styled.button`
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    border-radius: 20px;
-    border: solid black 1px;
-`
+const StyledCloseButton = styled(StyledButtonClose)`
+`;
 
 const StyledExtraSpace = styled.div`
     flex-shrink: 0;
@@ -80,4 +76,23 @@ const StyledButtonDiv = styled.div`
     position: absolute;
     right: 0.5rem;
     top: 0.5rem;
+`;
+
+const StyledTitle = styled.h1`
+    font-size: 2rem;
+    margin-bottom: 10px;
+`;
+
+const StyledNavLink = styled(NavLink)`
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 1.2rem;
+    &.active {
+        background-color: rgb(185, 178, 178);
+    };
+    border-bottom: solid 3px transparent;
+    &:hover {
+        border-color: black;
+    }
 `;

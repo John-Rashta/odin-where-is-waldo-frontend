@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     }
     #root {
         height: 100%;
+        font-family: Times, "Times New Roman", Georgia, serif;
     }
 
     html {
@@ -33,7 +34,7 @@ const GlobalStyle = createGlobalStyle`
         inset: 0px;
         transform: translate(-100%);
         transition: transform 500ms ease-in-out;
-        background-color: rgba(255, 255, 255, 0.75);
+        background-color: rgb(78, 73, 73);
     }
 
     .NavModal--after-open{

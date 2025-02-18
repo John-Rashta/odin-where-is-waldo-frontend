@@ -22,10 +22,10 @@ const StyledImgDiv = styled.div<{$foundChar?: boolean;}>`
      position: relative;
      &.charOption {
           border: none;
-          padding: 5px;
-          background-color: gray;
+          padding: 7px;
+          background-color: transparent;
           &:hover {
-               background-color: blue;
+               background-color:  rgb(7, 86, 160);
           }
      };
      border: solid 1px black;

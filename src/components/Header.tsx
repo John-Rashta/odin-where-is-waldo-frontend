@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom"
 import NavMenu from "./NavMenu";
 import styled from "styled-components";
-import { activeNav, headerHeight, headerPadding } from "../../util/style";
+import { activeNav, headerHeight, headerPadding, navDisplayValue } from "../../util/style";
 
 export default function Header() {
     const location = useLocation();
@@ -26,12 +26,13 @@ const StyledNavGroup = styled.div`
     display: flex;
     align-items: center;
     gap: 5px;
-    @media only screen and (max-width: 769px) {
+    @media only screen and (max-width: ${navDisplayValue}) {
     display: none;
     }
 `;
 
 const StyledHeader = styled.header<{$inGame?: boolean;}>`
+    background-color:rgb(253, 255, 255);
     position: ${props => props.$inGame ? "fixed" : "static"};
     padding: ${headerPadding};
     height: ${headerHeight};
@@ -48,5 +49,12 @@ const StyledNav = styled.nav`
 `;
 
 const  StyledNavLink = styled(NavLink)`
-    ${activeNav}
+    border: solid transparent 2px;
+    border-radius: 5px;
+    text-decoration: none;
+    &:hover {
+        border: solid black 2px;
+    }
+    padding: 10px;
+    ${activeNav};
 `;
