@@ -53,7 +53,7 @@ const  StyledNavLink = styled(NavLink)`
     border-radius: 5px;
     text-decoration: none;
     &:hover {
-        border: solid black 2px;
+        border-color: black;
     }
     padding: 10px;
     ${activeNav};

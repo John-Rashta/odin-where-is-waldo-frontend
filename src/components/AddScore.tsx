@@ -11,6 +11,7 @@ import { StyledButtonClose } from "../../util/style";
 
 export default function AddScore() {
     const [modalState, setModalState] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const currentOpenState = useSelector(selectOpenScoreState);
     const [addToScore] = useAddScoreMutation();
     const dispatch = useDispatch();
@@ -23,11 +24,13 @@ export default function AddScore() {
     });
     const navigate = useNavigate();
     useEffect(() => {
+        setErrorMessage("");
         setModalState(currentOpenState);
 
     },[currentOpenState]);
 
     const closeModal = () => {
+        setErrorMessage("");
         dispatch(setAddScore(false));
     };
 
@@ -35,21 +38,22 @@ export default function AddScore() {
         event.preventDefault();
         const currentTarget = event.target as HTMLFormElement;
         if (!currentTarget.username.value || currentTarget.username.value  === "") {
-            dispatch(setAddScore(false));
+            setErrorMessage("Can't be Empty!");
             return;
         }
         if (!gameInfo) {
-            dispatch(setAddScore(false));
+            setErrorMessage("Game id missing!");
             return;
         }
         addToScore({username: currentTarget.username.value as string, gameid: gameInfo}).unwrap().then((result) => {
             if (result.message === "Added to Scoreboard") {
+                setErrorMessage("");
                 navigate("/scoreboard");
+                dispatch(setAddScore(false));
             };
         }).catch((result) => {
-            console.log(result.data.message)
+            setErrorMessage(result.data.message);
         });
-        dispatch(setAddScore(false));
     };
 
     return (
@@ -63,11 +67,12 @@ export default function AddScore() {
             <StyledForm onSubmit={(e) => {
                handleSubmit(e);
             }}> 
+                <StyledError>{errorMessage}</StyledError>
                 <StyledFieldset>
                     <StyledLabel htmlFor="username">
                         Username for Leaderboard:
                     </StyledLabel>
-                    <StyledInput type="text" name="username" id="username" />
+                    <StyledInput type="text" name="username" id="username" placeholder="Letters and/or Numbers" />
                 </StyledFieldset>
                 <StyledAddButton type="submit">Add</StyledAddButton>
             </StyledForm>
@@ -77,7 +82,7 @@ export default function AddScore() {
 };
 
 const StyledModal = styled(Modal)`
-    background: rgb(162, 212, 214);
+    background: rgb(219, 219, 219);
     border: 3px solid rgb(95, 93, 93);
     overflow: auto;
     border-radius: 4px;
@@ -111,12 +116,16 @@ const StyledInput = styled.input`
     padding: 5px;
     font-size: 0.9rem;
     background-color: rgb(179, 225, 255);
+    &::placeholder {
+        color: black;
+    }
 `;
 
 const StyledForm = styled.form`
     display: flex;
     align-items: center;
     gap: 10px;
+    position: relative;
 `;
 
 const StyledFieldset = styled.fieldset`
@@ -130,5 +139,14 @@ const StyledFieldset = styled.fieldset`
 
 const StyledLabel = styled.label`
     font-size: 1rem;
+    font-weight: bold;
+`;
+
+const StyledError = styled.p`
+    position: absolute;
+    font-size: 1rem;
+    color: #b92326;
+    top: -20px;
+    left: 70px;
     font-weight: bold;
 `;
