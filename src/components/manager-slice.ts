@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface managerState {
+export interface managerState {
     gameOver: boolean,
     openAddScore: boolean
 };

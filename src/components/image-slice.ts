@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Image } from "../../util/interfaces";
 
-interface nestState {
+export interface nestState {
     image: Image
 }
 

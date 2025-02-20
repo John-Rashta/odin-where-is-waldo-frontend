@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface TimeState {
+export interface TimeState {
     startTime: number,
     endTime: number,
 };
