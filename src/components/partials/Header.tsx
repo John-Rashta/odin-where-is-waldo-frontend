@@ -12,7 +12,6 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    ///TODO ADD THE ROUTES HERE
     <StyledHeader $inGame={location.pathname === "/game"}>
       <StyledNav>
         <h1>Find Waldo</h1>

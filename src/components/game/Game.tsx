@@ -64,7 +64,6 @@ export default function Game() {
   }, [wrongAnswer]);
 
   function handleOnClick(event: ClickType) {
-    /// MIGHT CHANGE IT SO THAT IT CLOSES WHEN IT GETS CLICKED AND SHOWBOX IS TRUE INSTEAD OF HAVING THE WHOLE CODE IN THE OTHER ONE
     const currentTarget = event.target as HTMLImageElement;
     if (!currentTarget.classList.contains("mainImage")) {
       return;
