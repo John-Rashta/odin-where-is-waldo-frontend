@@ -1,6 +1,7 @@
 import { screen } from "@testing-library/react";
 import { renderWithProviders } from "./setupRedux";
 import Scoreboard from "../components/Scoreboard";
+import { Mock } from "vitest";
 
 const scoreStuff = {
     gameid: "333",

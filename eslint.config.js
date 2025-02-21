@@ -36,5 +36,8 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
     },
+    overrides: [
+      { "files": ["*{test,spec}.{t,j}s?(x)"], "env": { "jest": true } }
+    ]
   },
 )
