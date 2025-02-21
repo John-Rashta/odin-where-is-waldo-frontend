@@ -1,4 +1,3 @@
-import { describe, it, expect, vi, Mock } from "vitest";
 import { screen } from "@testing-library/react";
 import { renderWithProviders } from "./setupRedux";
 import Scoreboard from "../components/Scoreboard";

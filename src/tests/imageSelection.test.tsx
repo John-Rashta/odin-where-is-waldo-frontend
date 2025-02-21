@@ -1,4 +1,3 @@
-import { describe, it, expect, vi } from "vitest";
 import { screen } from "@testing-library/react";
 import ImageSelection from "../components/ImageSelection";
 import { renderWithProviders } from "./setupRedux";
