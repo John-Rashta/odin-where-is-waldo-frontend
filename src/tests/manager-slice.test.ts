@@ -1,29 +1,35 @@
-import type { AppStore } from "../store/store"
-import { makeStore } from "../store/store"
-import type { managerState } from "../components/manager-slice";
-import { managerSlice, selectGameState, selectOpenScoreState, setAddScore, setGameState } from "../components/manager-slice";
+import type { AppStore } from "../store/store";
+import { makeStore } from "../store/store";
+import type { managerState } from "../features/manager/manager-slice";
+import {
+  managerSlice,
+  selectGameState,
+  selectOpenScoreState,
+  setAddScore,
+  setGameState,
+} from "../features/manager/manager-slice";
 
 interface LocalTestContext {
-  store: AppStore
+  store: AppStore;
 }
 
-describe<LocalTestContext>("image reducer", it => {
-  beforeEach<LocalTestContext>(context => {
+describe<LocalTestContext>("image reducer", (it) => {
+  beforeEach<LocalTestContext>((context) => {
     const initialState: managerState = {
-        gameOver: false,
-        openAddScore: true,
+      gameOver: false,
+      openAddScore: true,
     };
 
     const store = makeStore({ manager: initialState });
 
     context.store = store;
-  })
+  });
 
   it("should handle initial state", () => {
     expect(managerSlice.reducer(undefined, { type: "unknown" })).toStrictEqual({
-        gameOver: true,
-        openAddScore: false,
-    })
+      gameOver: true,
+      openAddScore: false,
+    });
   });
 
   it("should set Game State", ({ store }) => {
