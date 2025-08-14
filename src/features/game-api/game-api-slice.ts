@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Image, Character } from "../../../util/interfaces";
+import 'dotenv/config'
+
 
 interface GameCharData {
   chars: Character[];
@@ -39,7 +41,7 @@ interface ScoreInput {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://odin-where-is-waldo-backend-production.up.railway.app`,
+    baseUrl: `https://${process.env.API_DOMAIN}`,
   }),
   tagTypes: ["Score", "Chars", "GameScore"],
   endpoints: (builder) => ({
