@@ -39,7 +39,7 @@ interface ScoreInput {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://${process.env.REACT_APP_API_DOMAIN}`,
+    baseUrl: `https://odin-where-is-waldo-backend-production.up.railway.app`,
   }),
   tagTypes: ["Score", "Chars", "GameScore"],
   endpoints: (builder) => ({
