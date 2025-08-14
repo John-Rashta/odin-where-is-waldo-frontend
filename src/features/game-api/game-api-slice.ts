@@ -1,7 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Image, Character } from "../../../util/interfaces";
-import 'dotenv/config'
-
 
 interface GameCharData {
   chars: Character[];
