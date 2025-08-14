@@ -39,7 +39,7 @@ interface ScoreInput {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.API_DOMAIN || "http://localhost:3000",
+    baseUrl: `https://${process.env.API_DOMAIN}}` || "http://localhost:3000",
   }),
   tagTypes: ["Score", "Chars", "GameScore"],
   endpoints: (builder) => ({
