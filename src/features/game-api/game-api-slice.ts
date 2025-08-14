@@ -40,6 +40,7 @@ export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: `https://odin-where-is-waldo-backend-production.up.railway.app`,
+    mode: "cors"
   }),
   tagTypes: ["Score", "Chars", "GameScore"],
   endpoints: (builder) => ({
